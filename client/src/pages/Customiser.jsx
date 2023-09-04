@@ -17,28 +17,57 @@ const Customiser = () => {
   const [activeFilterTab, setactiveFilterTab] = useState({
     logoShirt: true,
     stylishShirt: false,
-
   });
-  const generateTabContent = (tab) => {//this shows tab content depending on which tab is active
-    switch (activeEditorTab) {
-      case 'colorpicker':
-        return <ColorPicker />
-      case 'filepicker':
-        return <FilePicker
-          file={file}
-          setFile={setFile}//comes from useState
-          readFile={readFile}
-        />
-      case 'aipicker':
-        return <AIPicker />
-      default:
-        return null;  
-    }
+}
+const generateTabContent = (tab) => {//this shows tab content depending on which tab is active
+  switch (activeEditorTab) {
+    case 'colorpicker':
+      return <ColorPicker />
+    case 'filepicker':
+      return <FilePicker
+        file={file}
+        setFile={setFile}//comes from useState
+        readFile={readFile}
+      />
+    case 'aipicker':
+      return <AIPicker
+        prompt={prompt}
+        setPrompt={setPrompt}
+        generatingImg={generatingImg}
+        handleSubmit={handleSubmit}
+      />
+    default:
+      return null;
+  }
+}
+const handleSubmit = async (type) => {//async because we want it to wait for the image to be generated
+  if (!prompt) return alert('Please enter a prompt');//if prompt is empty, then it will return an alert
+  try {//calling the backend api
+    setgeneratingImg(true);
+    const res = await fetch(`http://localhose:8080/api/v1/tee`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
+      })
+    });
+    const data = await res.json();
+
+    handleDecals(type, 'data:image/png;base64,${data.photo}'); 
+  }
+  catch (err) {
+    alert(err);
+  }
+  finally {
+    setgeneratingImg(false);
+    setactiveEditorTab('');//resetting the active tab
   }
   const handleDecals = (type, res) => {
     const decalType = DecalTypes[type];
     state[decalType.stateProperty] = res;//updates the logo decal or full decal state
-    if(!activeFilterTab[decalType.filterTab]){//checks if the decal selected is already active
+    if (!activeFilterTab[decalType.filterTab]) {//checks if the decal selected is already active
       handleActiveFilterTab(decalType.filterTab);//if not, then it sets the active filter tab to the decal type
     }
   }
@@ -54,18 +83,19 @@ const Customiser = () => {
         state.isLogoTexture = true;
         state.isFullTexture = false;
         break;
-    } 
+    }
     //after setting the state, we have to update the active filter tab
     setactiveFilterTab((prevState) => {
       return {
-      ...prevState,
-      [tabName]: !prevState[tabName]
-    }})
+        ...prevState,
+        [tabName]: !prevState[tabName]
+      }
+    })
   }
-  const readFile = (type) =>{
+  const readFile = (type) => {
     reader(file, type).then((res) => {//reader function is used to read the file and convert it to base64
       handleDecals(type, res);
-      setactiveEditorTab=("");//resetting the active tab
+      setactiveEditorTab = ("");//resetting the active tab
     })
   }
   return (
