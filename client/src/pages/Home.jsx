@@ -22,7 +22,7 @@ const Home = () => {
                         </motion.div>
                             <motion.div {...headContentAnimation}
                             className='flex flex-col gap-5'>
-                                <p className='max-w-md font-normal text-white-600 text-base'>
+                                <p className='max-w-md font-normal text-white text-base'>
                                     Create your unique and and exclusive Tees with our 3D customizer. <strong>Unleash your imagination</strong> and define your own style.
                                 </p>
                                 <CustomButton
