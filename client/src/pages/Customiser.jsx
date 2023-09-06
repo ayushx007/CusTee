@@ -54,7 +54,7 @@ const Customiser = () => {
     try {
       // Calling the backend API
       setgeneratingImg(true);
-      const res = await fetch(`http://localhose:8080/api/v1/tee', {
+      const res = await fetch('http://localhose:8080/api/v1/tee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
