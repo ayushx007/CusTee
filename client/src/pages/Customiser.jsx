@@ -34,15 +34,6 @@ const Customiser = () => {
             readFile={readFile}
           />
         );
-      case 'aipicker':
-        return (
-          <AIPicker
-            prompt={prompt}
-            setPrompt={setPrompt}
-            generatingImg={generatingImg}
-            handleSubmit={handleSubmit}
-          />
-        );
       default:
         return null;
     }
