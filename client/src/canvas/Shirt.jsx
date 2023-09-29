@@ -35,7 +35,7 @@ const Shirt = () => {
           rotation={[0,0,0]}
           scale={0.15}//scale is used to resize the texture 
           map={logoTexture}//map is used to render the texture
-          //map-anisotropy={16}//map-anisotrophy is used to make the texture more clear
+          anisotropy={16}//anisotrophy is used to make the texture more clear
           depthTest={false}//depthTest is used to make the texture visible on top of other objects on the screen
           depthWrite={true}
           />
