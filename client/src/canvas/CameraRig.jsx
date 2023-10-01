@@ -8,25 +8,16 @@ const CameraRig = ({children}) => {//the children prop is used to render the 3d 
   const snap = useSnapshot(state);
   useFrame((state, delta) => {//delta is the time between the current frame and the last frame
     //Responsiveness:
-    const isBreakpoint = window.innerWidth < 1260;//used to check if the screen is less than 1260px
-    const isMobile = window.innerWidth < 600;//used to check if the screen is less than 768px
+    const isBreakpoint = window.innerWidth <= 1260;//used to check if the screen is less than 1260px
+    const isMobile = window.innerWidth <= 600;//used to check if the screen is less than 768px
     //set initial position of the target model
     let targetPosition = [-0.4, 0, 2];
-    if (snap.intro){
-      if(isBreakpoint){
-        targetPosition = [0, 0, 2];
-      }
-      if(isMobile){
-        targetPosition = [0, 0, 2.5];
-      }
-      else{
-        if(isMobile){
-          targetPosition = [0, 0, 2.5];
-        }
-        else{
-          targetPosition = [0, 0, 2];
-        }
-      }
+    if(snap.intro) {
+      if(isBreakpoint) targetPosition = [0, 0, 2];
+      if(isMobile) targetPosition = [0, 0.2, 2.5];
+    } else {
+      if(isMobile) targetPosition = [0, 0, 2.5]
+      else targetPosition = [0, 0, 2];
     }
     //set initial position of the camera
     easing.damp3(state.camera.position, targetPosition, 0.25, delta);//damp3 is used to ease the animation
