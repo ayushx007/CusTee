@@ -13,7 +13,7 @@ return (
     className='w-full max-w-full h-full transition-all ease-in'
     >
       <ambientLight intensity={0.5} />
-      <Environment file="syferfontein_0d_clear_puresky_1k.hdr" />
+      <Environment files="syferfontein_0d_clear_puresky_1k.hdr" />
      <CameraRig>
         <Backdrop />
         <Center>
